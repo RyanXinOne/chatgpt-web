@@ -102,7 +102,7 @@ function handleReset() {
           {{ $t('common.save') }}
         </NButton>
       </div>
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-4" style="display:none;">
         <span class="flex-shrink-0 w-[100px]">{{ $t('setting.resetUserInfo') }}</span>
         <NButton text type="primary" @click="handleReset">
           {{ $t('common.reset') }}
