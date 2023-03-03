@@ -31,8 +31,6 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
         top_p: 1,
       },
       systemMessage: `You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible.\nCurrent date: ${new Date().toISOString().split('T')[0]}\n`,
-      maxModelTokens: 4096,
-      maxResponseTokens: 4096,
     }
 
     if (process.env.SOCKS_PROXY_HOST && process.env.SOCKS_PROXY_PORT) {
