@@ -3,11 +3,12 @@ import { ref } from 'vue'
 import { NButton, NInput, useMessage } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import { fetchVerify } from '@/api'
-import { useAuthStore } from '@/store'
+import { useAuthStore, useUserStore } from '@/store'
 
 const router = useRouter()
 
 const authStore = useAuthStore()
+const userStore = useUserStore()
 
 const ms = useMessage()
 
@@ -22,8 +23,9 @@ async function handleVerify() {
 
   try {
     loading.value = true
-    await fetchVerify(secretKey)
+    const response = await fetchVerify(secretKey)
     authStore.setToken(secretKey)
+    userStore.updateUserInfo(response.data)
     ms.success('success')
     router.replace('/')
   }

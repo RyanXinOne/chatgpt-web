@@ -6,6 +6,7 @@ import { SocksProxyAgent } from 'socks-proxy-agent'
 import fetch from 'node-fetch'
 import { sendResponse } from '../utils'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
+import { readAuthConfig } from '../middleware/auth'
 
 dotenv.config()
 
@@ -117,7 +118,8 @@ async function chatReplyProcess(
 async function chatConfig() {
   const reverseProxy = process.env.API_REVERSE_PROXY ?? '-'
   let socksProxy = '-'
-  const authorized = (typeof process.env.AUTH_SECRET_KEY === 'string' && process.env.AUTH_SECRET_KEY.length) > 0
+  const authConfig = await readAuthConfig()
+  const authorized = Object.keys(authConfig).length > 0
     ? '1'
     : '0'
 

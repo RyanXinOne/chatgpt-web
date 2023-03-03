@@ -1,7 +1,7 @@
 import express from 'express'
 import type { ChatContext, ChatMessage } from './chatgpt'
 import { chatConfig, chatReply, chatReplyProcess } from './chatgpt'
-import { auth } from './middleware/auth'
+import { auth, readAuthConfig } from './middleware/auth'
 
 const app = express()
 const router = express.Router()
@@ -62,10 +62,11 @@ router.post('/verify', async (req, res) => {
     if (!secretKey)
       throw new Error('Secret key is empty')
 
-    if (process.env.AUTH_SECRET_KEY !== secretKey)
+    const authConfig = await readAuthConfig()
+    if (!(secretKey in authConfig))
       throw new Error('Secret key is invalid')
 
-    res.send({ status: 'Success', message: 'Verify successfully', data: null })
+    res.send({ status: 'Success', message: 'Verify successfully', data: authConfig[secretKey] })
   }
   catch (error) {
     res.send({ status: 'Fail', message: error.message, data: null })

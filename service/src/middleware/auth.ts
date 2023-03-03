@@ -1,9 +1,11 @@
+import * as fs from 'fs/promises'
+
 const auth = async (req, res, next) => {
-  const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
-  if (typeof AUTH_SECRET_KEY === 'string' && AUTH_SECRET_KEY.length > 0) {
+  const authConfig = await readAuthConfig()
+  if (Object.keys(authConfig).length > 0) {
     try {
       const token = req.header('Authorization').replace('Bearer ', '')
-      if (token.trim() !== AUTH_SECRET_KEY.trim())
+      if (!(token.trim() in authConfig))
         throw new Error('Invalid token')
       next()
     }
@@ -16,4 +18,9 @@ const auth = async (req, res, next) => {
   }
 }
 
-export { auth }
+async function readAuthConfig() {
+  const fileContents = await fs.readFile('auth.json', 'utf8')
+  return JSON.parse(fileContents)
+}
+
+export { auth, readAuthConfig }
