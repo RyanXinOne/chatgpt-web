@@ -25,11 +25,12 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
   if (process.env.OPENAI_API_KEY) {
     const options: ChatGPTAPIOptions = {
       apiKey: process.env.OPENAI_API_KEY,
-      debug: false,
       completionParams: {
+        model: 'gpt-3.5-turbo',
         temperature: 0.8,
         top_p: 1,
       },
+      debug: false,
       systemMessage: `You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible.\nCurrent date: ${new Date().toISOString().split('T')[0]}\n`,
       maxModelTokens: 4000,
       maxResponseTokens: 1000,
@@ -75,28 +76,6 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
   }
 })()
 
-async function chatReply(
-  message: string,
-  lastContext?: { conversationId?: string; parentMessageId?: string },
-) {
-  if (!message)
-    return sendResponse({ type: 'Fail', message: 'Message is empty' })
-
-  try {
-    let options: SendMessageOptions = { timeoutMs }
-
-    if (lastContext)
-      options = { ...lastContext }
-
-    const response = await api.sendMessage(message, { ...options })
-
-    return sendResponse({ type: 'Success', data: response })
-  }
-  catch (error: any) {
-    return sendResponse({ type: 'Fail', message: error.message })
-  }
-}
-
 async function chatReplyProcess(
   message: string,
   lastContext?: { conversationId?: string; parentMessageId?: string },
@@ -108,8 +87,12 @@ async function chatReplyProcess(
   try {
     let options: SendMessageOptions = { timeoutMs }
 
-    if (lastContext)
-      options = { ...lastContext }
+    if (lastContext) {
+      if (apiModel === 'ChatGPTAPI')
+        options = { parentMessageId: lastContext.parentMessageId }
+      else
+        options = { ...lastContext }
+    }
 
     const response = await api.sendMessage(message, {
       ...options,
@@ -121,6 +104,7 @@ async function chatReplyProcess(
     return sendResponse({ type: 'Success', data: response })
   }
   catch (error: any) {
+    global.console.error(error)
     return sendResponse({ type: 'Fail', message: error.message })
   }
 }
@@ -144,4 +128,4 @@ async function chatConfig() {
 
 export type { ChatContext, ChatMessage }
 
-export { chatReply, chatReplyProcess, chatConfig }
+export { chatReplyProcess, chatConfig }
