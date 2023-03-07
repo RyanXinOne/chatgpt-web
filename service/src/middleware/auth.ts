@@ -1,12 +1,12 @@
-import * as fs from 'fs/promises'
+import fs from 'fs/promises'
 
 const auth = async (req, res, next) => {
   const authConfig = await readAuthConfig()
   if (Object.keys(authConfig).length > 0) {
     try {
-      const token = req.header('Authorization').replace('Bearer ', '')
-      if (!(token.trim() in authConfig))
-        throw new Error('Invalid token')
+      const Authorization = req.header('Authorization')
+      if (!Authorization || !(Authorization.replace('Bearer ', '').trim() in authConfig))
+        throw new Error('Error: 无访问权限 | No access rights')
       next()
     }
     catch (error) {

@@ -34,9 +34,15 @@ export function fetchChatAPIProcess<T = any>(
   })
 }
 
-export function fetchVerify<T = any>(secretKey: string) {
+export function fetchSession<T>() {
+  return post<T>({
+    url: '/session',
+  })
+}
+
+export function fetchVerify<T>(token: string) {
   return post<T>({
     url: '/verify',
-    data: { secretKey },
+    data: { token },
   })
 }

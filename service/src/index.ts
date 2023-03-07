@@ -45,17 +45,28 @@ router.post('/config', async (req, res) => {
   }
 })
 
+router.post('/session', async (req, res) => {
+  try {
+    const authConfig = await readAuthConfig()
+    const hasAuth = Object.keys(authConfig).length > 0
+    res.send({ status: 'Success', message: '', data: { auth: hasAuth } })
+  }
+  catch (error) {
+    res.send({ status: 'Fail', message: error.message, data: null })
+  }
+})
+
 router.post('/verify', async (req, res) => {
   try {
-    const { secretKey } = req.body as { secretKey: string }
-    if (!secretKey)
+    const { token } = req.body as { token: string }
+    if (!token)
       throw new Error('Secret key is empty')
 
     const authConfig = await readAuthConfig()
-    if (!(secretKey in authConfig))
-      throw new Error('Secret key is invalid')
+    if (!(token in authConfig))
+      throw new Error('密钥无效 | Secret key is invalid')
 
-    res.send({ status: 'Success', message: 'Verify successfully', data: authConfig[secretKey] })
+    res.send({ status: 'Success', message: 'Verify successfully', data: authConfig[token] })
   }
   catch (error) {
     res.send({ status: 'Fail', message: error.message, data: null })
