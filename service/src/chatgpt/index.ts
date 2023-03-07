@@ -6,7 +6,6 @@ import { SocksProxyAgent } from 'socks-proxy-agent'
 import fetch from 'node-fetch'
 import { sendResponse } from '../utils'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
-import { readAuthConfig } from '../middleware/auth'
 
 const ErrorCodeMessage: Record<string, string> = {
   400: '[OpenAI] 模型的最大上下文长度是4096个令牌，请减少信息的长度。| This model\'s maximum context length is 4096 tokens.',
@@ -124,19 +123,14 @@ async function chatReplyProcess(
 }
 
 async function chatConfig() {
-  const reverseProxy = process.env.API_REVERSE_PROXY ?? '-'
-  let socksProxy = '-'
-  const authConfig = await readAuthConfig()
-  const authorized = Object.keys(authConfig).length > 0
-    ? '1'
-    : '0'
-
-  if (process.env.SOCKS_PROXY_HOST && process.env.SOCKS_PROXY_PORT)
-    socksProxy = `${process.env.SOCKS_PROXY_HOST}:${process.env.SOCKS_PROXY_PORT}`
-
   return sendResponse({
     type: 'Success',
-    data: { apiModel, authorized, reverseProxy, timeoutMs, socksProxy } as ModelConfig,
+    data: {
+      apiModel,
+      reverseProxy: process.env.API_REVERSE_PROXY,
+      timeoutMs,
+      socksProxy: (process.env.SOCKS_PROXY_HOST && process.env.SOCKS_PROXY_PORT) ? (`${process.env.SOCKS_PROXY_HOST}:${process.env.SOCKS_PROXY_PORT}`) : '-',
+    } as ModelConfig,
   })
 }
 
