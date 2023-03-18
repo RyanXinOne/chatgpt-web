@@ -1,6 +1,6 @@
 import express from 'express'
 import type { ChatContext, ChatMessage } from './chatgpt'
-import { chatConfig, chatReplyProcess } from './chatgpt'
+import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth, readAuthConfig } from './middleware/auth'
 
 const app = express()
@@ -49,7 +49,7 @@ router.post('/session', async (req, res) => {
   try {
     const authConfig = await readAuthConfig()
     const hasAuth = Object.keys(authConfig).length > 0
-    res.send({ status: 'Success', message: '', data: { auth: hasAuth } })
+    res.send({ status: 'Success', message: '', data: { auth: hasAuth, model: currentModel() } })
   }
   catch (error) {
     res.send({ status: 'Fail', message: error.message, data: null })
