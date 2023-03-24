@@ -1,7 +1,9 @@
 import express from 'express'
-import type { ChatContext, ChatMessage } from './chatgpt'
+import type { RequestProps } from './types'
+import type { ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth, readAuthConfig } from './middleware/auth'
+import { limiter } from './middleware/limiter'
 
 const app = express()
 const router = express.Router()
@@ -16,15 +18,20 @@ app.all('*', (_, res, next) => {
   next()
 })
 
-router.post('/chat-process', auth, async (req, res) => {
+router.post('/chat-process', [auth, limiter], async (req, res) => {
   res.setHeader('Content-type', 'application/octet-stream')
 
   try {
-    const { prompt, options = {} } = req.body as { prompt: string; options?: ChatContext }
+    const { prompt, options = {}, systemMessage } = req.body as RequestProps
     let firstChunk = true
-    await chatReplyProcess(prompt, options, (chat: ChatMessage) => {
-      res.write(firstChunk ? JSON.stringify(chat) : `\n${JSON.stringify(chat)}`)
-      firstChunk = false
+    await chatReplyProcess({
+      message: prompt,
+      lastContext: options,
+      process: (chat: ChatMessage) => {
+        res.write(firstChunk ? JSON.stringify(chat) : `\n${JSON.stringify(chat)}`)
+        firstChunk = false
+      },
+      systemMessage,
     })
   }
   catch (error) {
@@ -35,7 +42,7 @@ router.post('/chat-process', auth, async (req, res) => {
   }
 })
 
-router.post('/config', async (req, res) => {
+router.post('/config', auth, async (req, res) => {
   try {
     const response = await chatConfig()
     res.send(response)
