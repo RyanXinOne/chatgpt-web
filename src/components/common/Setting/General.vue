@@ -3,13 +3,15 @@ import { computed, ref } from 'vue'
 import { NButton, NInput, NPopconfirm, NSelect, useMessage } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
-import { useAppStore, useUserStore } from '@/store'
+import { fetchVerify } from '@/api'
+import { useAppStore, useAuthStore, useUserStore } from '@/store'
 import type { UserInfo } from '@/store/modules/user/helper'
 import { getCurrentDate } from '@/utils/functions'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
 
 const appStore = useAppStore()
+const authStore = useAuthStore()
 const userStore = useUserStore()
 
 const { isMobile } = useBasicLayout()
@@ -64,10 +66,20 @@ function updateUserInfo(options: Partial<UserInfo>) {
   ms.success(t('common.success'))
 }
 
-function handleReset() {
-  userStore.resetUserInfo()
-  ms.success(t('common.success'))
-  window.location.reload()
+async function handleReset() {
+  const token = authStore.token
+  if (!token)
+    return
+  try {
+    const response: any = await fetchVerify(token)
+    userStore.updateUserInfo(response.data)
+    ms.success(t('common.success'))
+    window.location.reload()
+  }
+  catch (error: any) {
+    ms.error(error.message ?? 'error')
+    authStore.removeToken()
+  }
 }
 
 function exportData(): void {
@@ -212,7 +224,7 @@ function handleImportButtonClick(): void {
           />
         </div>
       </div>
-      <div v-if="false" class="flex items-center space-x-4">
+      <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{ $t('setting.resetUserInfo') }}</span>
         <NButton size="small" @click="handleReset">
           {{ $t('common.reset') }}
