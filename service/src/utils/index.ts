@@ -24,14 +24,13 @@ export function sendResponse<T>(options: SendResponseOptions<T>) {
 }
 
 export async function logUsage(authId: string) {
-  const usageFile: any = await fs.readFile('usage.json', 'utf8').catch(() => false)
-  if (!usageFile)
-    return
-  const usage = JSON.parse(usageFile)
+  const usageStr: any = await fs.readFile('logs/usage.json', 'utf8').catch(() => '{}')
+  const usage = JSON.parse(usageStr)
   const date = new Date()
   const dateKey = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
   usage[dateKey] = usage[dateKey] ?? {}
   usage[dateKey][authId] = usage[dateKey][authId] ?? 0
   usage[dateKey][authId] += 1
-  await fs.writeFile('usage.json', JSON.stringify(usage, null, 2))
+  fs.mkdir('logs', { recursive: true })
+  await fs.writeFile('logs/usage.json', JSON.stringify(usage, null, 2))
 }

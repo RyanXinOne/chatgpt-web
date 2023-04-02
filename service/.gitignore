@@ -33,4 +33,3 @@ build
 public
 .env
 auth.json
-usage.json
