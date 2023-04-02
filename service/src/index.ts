@@ -4,6 +4,7 @@ import type { ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth, readAuthConfig } from './middleware/auth'
 import { limiter } from './middleware/limiter'
+import { logUsage } from './utils'
 
 const app = express()
 const router = express.Router()
@@ -33,6 +34,10 @@ router.post('/chat-process', [auth, limiter], async (req, res) => {
       },
       systemMessage,
     })
+    // log usage
+    const Authorization = req.header('Authorization')
+    if (Authorization)
+      await logUsage(Authorization.replace('Bearer ', '').trim())
   }
   catch (error) {
     res.write(JSON.stringify(error))

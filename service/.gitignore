@@ -29,6 +29,8 @@ coverage
 *.sw?
 
 build
+
+public
 .env
 auth.json
-public/
+usage.json
