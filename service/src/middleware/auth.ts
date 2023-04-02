@@ -19,7 +19,7 @@ const auth = async (req, res, next) => {
 }
 
 async function readAuthConfig() {
-  const fileContents = await fs.readFile('auth.json', 'utf8')
+  const fileContents = await fs.readFile('auth.json', 'utf8').catch(() => '{}')
   return JSON.parse(fileContents)
 }
 
