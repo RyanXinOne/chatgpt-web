@@ -1,6 +1,9 @@
+import { ref } from 'vue'
 import type { AxiosProgressEvent, GenericAbortSignal } from 'axios'
 import { post } from '@/utils/request'
 import { useSettingStore } from '@/store'
+
+export const gpt4Enabled = ref<boolean>(false)
 
 export function fetchChatAPI<T = any>(
   prompt: string,
@@ -31,7 +34,7 @@ export function fetchChatAPIProcess<T = any>(
 
   return post<T>({
     url: '/chat-process',
-    data: { prompt: params.prompt, options: params.options, systemMessage: settingStore.systemMessage },
+    data: { prompt: params.prompt, options: params.options, systemMessage: settingStore.systemMessage, enableGPT4: gpt4Enabled.value },
     signal: params.signal,
     onDownloadProgress: params.onDownloadProgress,
   })

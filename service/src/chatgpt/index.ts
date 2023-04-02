@@ -94,13 +94,20 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 })()
 
 async function chatReplyProcess(options: RequestOptions) {
-  const { message, lastContext, process, systemMessage } = options
+  const { message, lastContext, process, systemMessage, gpt4 } = options
   try {
     let options: SendMessageOptions = { timeoutMs }
 
     if (apiModel === 'ChatGPTAPI') {
       if (isNotEmptyString(systemMessage))
         options.systemMessage = systemMessage
+      if (gpt4) {
+        options.completionParams = {
+          model: 'gpt-4',
+          temperature: 0.8,
+          top_p: 1,
+        }
+      }
     }
 
     if (lastContext != null) {

@@ -26,6 +26,8 @@ export default {
     failed: '操作失败',
     verify: '验证',
     unauthorizedTips: '未经授权，请先进行验证。',
+    enable: '启用',
+    gpt4Enabled: '已为当前会话临时启用GPT-4，模型很贵，悠着点用T_T',
   },
   chat: {
     placeholder: '来说点什么吧...（Shift + Enter = 换行）',

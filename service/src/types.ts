@@ -4,6 +4,7 @@ export interface RequestProps {
   prompt: string
   options?: ChatContext
   systemMessage: string
+  enableGPT4?: boolean
 }
 
 export interface ChatContext {

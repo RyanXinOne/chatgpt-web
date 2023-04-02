@@ -4,6 +4,7 @@ import { NButton, NInput, useMessage } from 'naive-ui'
 import { useSettingStore } from '@/store'
 import type { SettingsState } from '@/store/modules/settings/helper'
 import { t } from '@/locales'
+import { gpt4Enabled } from '@/api'
 
 const settingStore = useSettingStore()
 
@@ -20,6 +21,11 @@ function handleReset() {
   settingStore.resetSetting()
   ms.success(t('common.success'))
   window.location.reload()
+}
+
+function handleGPT4() {
+  gpt4Enabled.value = true
+  ms.success(t('common.gpt4Enabled'))
 }
 </script>
 
@@ -39,6 +45,12 @@ function handleReset() {
         <span class="flex-shrink-0 w-[100px]">&nbsp;</span>
         <NButton size="small" @click="handleReset">
           {{ $t('common.reset') }}
+        </NButton>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="flex-shrink-0 w-[100px]">GPT-4</span>
+        <NButton size="small" :disabled="gpt4Enabled" @click="handleGPT4">
+          {{ $t('common.enable') }}
         </NButton>
       </div>
     </div>
