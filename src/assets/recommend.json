@@ -2,13 +2,13 @@
   {
     "key": "English Prompts",
     "desc": "A set of English prompts for ChatGPT",
-    "downloadUrl": "https://raw.githubusercontent.com/Nothing1024/chatgpt-prompt-collection/main/awesome-chatgpt-prompts-en.json",
-    "url": "https://github.com/Nothing1024/chatgpt-prompt-collection"
+    "downloadUrl": "https://github.com/RyanXinOne/chat-prompts/raw/main/prompts_en.json",
+    "url": "https://github.com/RyanXinOne/chat-prompts"
   },
   {
-    "key": "中文Prompts",
-    "desc": "一组ChatGPT中文引导语",
-    "downloadUrl": "https://raw.githubusercontent.com/PlexPt/awesome-chatgpt-prompts-zh/main/prompts-zh.json",
-    "url": "https://github.com/PlexPt/awesome-chatgpt-prompts-zh"
+    "key": "中文提示词",
+    "desc": "一组ChatGPT中文提示词",
+    "downloadUrl": "https://github.com/RyanXinOne/chat-prompts/raw/main/prompts_zh.json",
+    "url": "https://github.com/RyanXinOne/chat-prompts"
   }
 ]

@@ -1,0 +1,3 @@
+[submodule "chat-prompts"]
+	path = chat-prompts
+	url = https://github.com/RyanXinOne/chat-prompts.git
