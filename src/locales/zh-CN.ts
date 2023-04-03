@@ -30,6 +30,7 @@ export default {
     gpt4Enabled: '已为当前会话临时启用GPT-4，模型很贵，悠着点用T_T',
   },
   chat: {
+    newChatButton: '新建聊天',
     placeholder: '来说点什么吧...（Shift + Enter = 换行）',
     placeholderMobile: '来说点什么...',
     copy: '复制',
@@ -72,6 +73,7 @@ export default {
     balance: 'API余额',
   },
   store: {
+    siderButton: '提示词商店',
     local: '本地',
     online: '在线',
     title: '标题',
