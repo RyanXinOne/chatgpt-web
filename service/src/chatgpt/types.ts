@@ -7,3 +7,7 @@ export interface RequestOptions {
   systemMessage?: string
   gpt4?: boolean
 }
+
+export interface BalanceResponse {
+  total_usage: number
+}
