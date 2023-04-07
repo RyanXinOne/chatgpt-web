@@ -72,7 +72,7 @@ function handleGPT4() {
         </NButton>
       </div>
       <div class="flex items-center space-x-4">
-        <span class="flex-shrink-0 w-[100px]">GPT-4</span>
+        <span class="flex-shrink-0 w-[120px]">GPT-4</span>
         <NButton size="small" :disabled="gpt4Enabled" @click="handleGPT4">
           {{ $t('common.enable') }}
         </NButton>
