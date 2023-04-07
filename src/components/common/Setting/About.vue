@@ -61,7 +61,7 @@ onMounted(() => {
         </p>
       </div>
       <p>{{ $t("setting.api") }}：{{ config?.apiModel ?? '-' }}</p>
-      <p v-if="isChatGPTAPI && false">
+      <p v-if="isChatGPTAPI">
         {{ $t("setting.balance") }}：{{ config?.balance ?? '-' }}
         <span class="text-xs text-neutral-400">({{ $t('setting.monthlyUsage') }})</span>
       </p>
