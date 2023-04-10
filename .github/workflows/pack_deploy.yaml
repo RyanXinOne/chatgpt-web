@@ -1,0 +1,61 @@
+name: pack_deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pack_and_deploy:
+    runs-on: ubuntu-latest
+    env:
+      dot_env: |
+        OPENAI_API_KEY=${{ secrets.API_KEY }}
+        OPENAI_ACCESS_TOKEN=
+        OPENAI_API_BASE_URL=
+        OPENAI_API_MODEL=
+        OPENAI_API_DISABLE_DEBUG=true
+        API_REVERSE_PROXY=
+        TIMEOUT_MS=100000
+        MAX_REQUEST_PER_HOUR=100
+        AUTH_SECRET_KEY=
+        SOCKS_PROXY_HOST=
+        SOCKS_PROXY_PORT=
+        SOCKS_PROXY_USERNAME=
+        SOCKS_PROXY_PASSWORD=
+        HTTPS_PROXY=
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - run: npm i -g pnpm
+
+      - name: build-frontend
+        run: pnpm bootstrap && pnpm build
+      - name: set-service-env
+        run: echo "$dot_env" > service/.env
+
+      - name: ssh-scp-ssh-pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          SERVICE: chat
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          user: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          connect_timeout: 10s
+          first_ssh: |
+            echo "Stop remote service..."
+            /home/${{ secrets.REMOTE_USER }}/stopService.sh $SERVICE
+            echo "Delete old files..."
+            cd /home/${{ secrets.REMOTE_USER }}/chat-service
+            rm -rf build/ public/ src/
+          scp: |
+            ./service/* => /home/${{ secrets.REMOTE_USER }}/chat-service/
+          last_ssh: |
+            echo "Build service..."
+            cd /home/${{ secrets.REMOTE_USER }}/chat-service
+            pnpm install && pnpm build
+            echo "Start remote service..."
+            /home/${{ secrets.REMOTE_USER }}/startService.sh $SERVICE
