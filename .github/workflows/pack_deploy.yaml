@@ -53,6 +53,7 @@ jobs:
             rm -rf build/ public/ src/
           scp: |
             ./service/* => /home/${{ secrets.REMOTE_USER }}/chat-service/
+            ./service/.env => /home/${{ secrets.REMOTE_USER }}/chat-service/
           last_ssh: |
             echo "Build service..."
             cd /home/${{ secrets.REMOTE_USER }}/chat-service
