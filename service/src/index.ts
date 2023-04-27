@@ -78,10 +78,10 @@ router.post('/verify', async (req, res) => {
       throw new Error('Secret key is empty')
 
     const authConfig = await readAuthConfig()
-    if (!(token in authConfig))
+    if (!(token in authConfig && authConfig[token].allow))
       throw new Error('密钥无效 | Secret key is invalid')
 
-    res.send({ status: 'Success', message: 'Verify successfully', data: authConfig[token] })
+    res.send({ status: 'Success', message: 'Verify successfully', data: authConfig[token].info })
   }
   catch (error) {
     res.send({ status: 'Fail', message: error.message, data: null })

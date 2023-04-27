@@ -5,7 +5,10 @@ const auth = async (req, res, next) => {
   if (Object.keys(authConfig).length > 0) {
     try {
       const Authorization = req.header('Authorization')
-      if (!Authorization || !(Authorization.replace('Bearer ', '').trim() in authConfig))
+      if (!Authorization)
+        throw new Error('Error: 无访问权限 | No access rights')
+      const token = Authorization.replace('Bearer ', '').trim()
+      if (!(token in authConfig && authConfig[token].allow))
         throw new Error('Error: 无访问权限 | No access rights')
       next()
     }
