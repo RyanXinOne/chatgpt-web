@@ -28,8 +28,13 @@ function handleReset() {
 }
 
 function handleGPT4() {
-  gpt4Enabled.value = true
-  ms.success(t('common.gpt4Enabled'))
+  if (gpt4Enabled.value) {
+    gpt4Enabled.value = false
+  }
+  else {
+    gpt4Enabled.value = true
+    ms.success(t('common.gpt4Enabled'))
+  }
 }
 </script>
 
@@ -73,8 +78,8 @@ function handleGPT4() {
       </div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[120px]">GPT-4</span>
-        <NButton size="small" :disabled="gpt4Enabled" @click="handleGPT4">
-          {{ $t('common.enable') }}
+        <NButton size="small" @click="handleGPT4">
+          {{ !gpt4Enabled ? $t('common.enable') : $t('common.disable') }}
         </NButton>
       </div>
     </div>

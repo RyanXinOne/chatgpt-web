@@ -27,6 +27,7 @@ export default {
     verify: 'Verify',
     unauthorizedTips: 'Unauthorized, please verify first.',
     enable: 'Enable',
+    disable: 'Disable',
     gpt4Enabled: 'GPT-4 has been temporarily enabled for the current session.',
   },
   chat: {
