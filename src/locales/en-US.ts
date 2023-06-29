@@ -29,6 +29,7 @@ export default {
     enable: 'Enable',
     disable: 'Disable',
     gpt4Enabled: 'GPT-4 has been temporarily enabled for the current session.',
+    stopResponding: 'Stop Responding',
   },
   chat: {
     newChatButton: 'New Chat',

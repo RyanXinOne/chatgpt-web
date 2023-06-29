@@ -29,6 +29,7 @@ export default {
     enable: '启用',
     disable: '禁用',
     gpt4Enabled: '已为当前会话临时启用GPT-4，模型很贵，悠着点用T_T',
+    stopResponding: '停止响应',
   },
   chat: {
     newChatButton: '新建聊天',
