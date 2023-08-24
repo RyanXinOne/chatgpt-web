@@ -49,14 +49,14 @@ jobs:
             echo "Stop remote service..."
             /home/${{ secrets.REMOTE_USER }}/stopService.sh $SERVICE
             echo "Delete old files..."
-            cd /home/${{ secrets.REMOTE_USER }}/chat-service
+            cd /home/${{ secrets.REMOTE_USER }}/chatgpt-web/service/
             rm -rf build/ public/ src/
           scp: |
-            ./service/* => /home/${{ secrets.REMOTE_USER }}/chat-service/
-            ./service/.env => /home/${{ secrets.REMOTE_USER }}/chat-service/
+            ./service/* => /home/${{ secrets.REMOTE_USER }}/chatgpt-web/service/
+            ./service/.env => /home/${{ secrets.REMOTE_USER }}/chatgpt-web/service/
           last_ssh: |
             echo "Build service..."
-            cd /home/${{ secrets.REMOTE_USER }}/chat-service
+            cd /home/${{ secrets.REMOTE_USER }}/chatgpt-web/service/
             pnpm install && pnpm build
             echo "Start remote service..."
             /home/${{ secrets.REMOTE_USER }}/startService.sh $SERVICE
