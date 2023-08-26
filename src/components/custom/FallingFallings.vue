@@ -230,6 +230,7 @@ export default {
       }"
     />
   </div>
+  <div class="falling-object" style="visibility: none;" />
 </template>
 
 <style scoped>
