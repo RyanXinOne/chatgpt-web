@@ -59,6 +59,12 @@ function handleSubmit() {
 async function onConversation() {
   let message = prompt.value
 
+  if (message.trim() === '/兔兔') {
+    window.dispatchEvent(new Event('fallings'))
+    prompt.value = ''
+    return
+  }
+
   if (loading.value)
     return
 
