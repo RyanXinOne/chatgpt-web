@@ -33,11 +33,13 @@ export default {
   },
   chat: {
     newChatButton: 'New Chat',
+    newChatTitle: 'New Chat',
     placeholder: 'Ask me anything...(Shift + Enter = line break, "/" to trigger prompts)',
     placeholderMobile: 'Ask me anything...',
     copy: 'Copy',
     copied: 'Copied',
     copyCode: 'Copy Code',
+    copyFailed: 'Copy Failed',
     clearChat: 'Clear Chat',
     clearChatConfirm: 'Are you sure to clear this chat?',
     exportImage: 'Export Image',
@@ -53,6 +55,7 @@ export default {
     clearHistoryConfirm: 'Are you sure to clear chat history?',
     preview: 'Preview',
     showRawText: 'Show as raw text',
+    thinking: 'Thinking...',
   },
   setting: {
     setting: 'Setting',
@@ -76,6 +79,9 @@ export default {
     httpsProxy: 'HTTPS Proxy',
     balance: 'API Balance',
     monthlyUsage: 'Monthly Usage',
+    openSource: 'This project is open sourced at',
+    freeMIT: 'free and based on the MIT license, without any form of paid behavior!',
+    stars: 'If you find this project helpful, please give me a Star on GitHub or give a little sponsorship, thank you!',
   },
   store: {
     siderButton: 'Prompt Store',
