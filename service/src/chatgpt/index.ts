@@ -38,18 +38,18 @@ let api3: ChatGPTAPI, api4: ChatGPTAPI
 
   api3 = new ChatGPTAPI({
     apiKey: process.env.OPENAI_API_KEY,
-    completionParams: { model: 'gpt-3.5-turbo' },
+    completionParams: { model: 'gpt-3.5-turbo-1106' },
     debug: !disableDebug,
-    maxModelTokens: 4000,
-    maxResponseTokens: 1000,
+    maxModelTokens: 8000,
+    maxResponseTokens: 2000,
   })
 
   api4 = new ChatGPTAPI({
     apiKey: process.env.OPENAI_API_KEY,
-    completionParams: { model: 'gpt-4' },
+    completionParams: { model: 'gpt-4-1106-preview' },
     debug: !disableDebug,
-    maxModelTokens: 8000,
-    maxResponseTokens: 2000,
+    maxModelTokens: 16000,
+    maxResponseTokens: 4000,
   })
 
   apiModel = 'ChatGPTAPI'
@@ -63,10 +63,7 @@ async function chatReplyProcess(options: RequestOptions) {
     if (apiModel === 'ChatGPTAPI') {
       if (isNotEmptyString(systemMessage))
         options.systemMessage = systemMessage
-      options.completionParams = {
-        temperature,
-        top_p,
-      }
+      options.completionParams = { temperature, top_p }
     }
 
     if (lastContext != null) {
