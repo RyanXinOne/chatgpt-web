@@ -11,19 +11,9 @@ jobs:
     env:
       dot_env: |
         OPENAI_API_KEY=${{ secrets.API_KEY }}
-        OPENAI_ACCESS_TOKEN=
-        OPENAI_API_BASE_URL=
-        OPENAI_API_MODEL=
         OPENAI_API_DISABLE_DEBUG=true
-        API_REVERSE_PROXY=
         TIMEOUT_MS=1000000
         MAX_REQUEST_PER_HOUR=100
-        AUTH_SECRET_KEY=
-        SOCKS_PROXY_HOST=
-        SOCKS_PROXY_PORT=
-        SOCKS_PROXY_USERNAME=
-        SOCKS_PROXY_PASSWORD=
-        HTTPS_PROXY=
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -60,3 +50,4 @@ jobs:
             pnpm install && pnpm build
             echo "Start remote service..."
             /home/${{ secrets.REMOTE_USER }}/startService.sh $SERVICE
+            exit

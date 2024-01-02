@@ -1,7 +1,9 @@
 import * as dotenv from 'dotenv'
 import 'isomorphic-fetch'
-import type { ChatMessage, SendMessageOptions } from 'chatgpt'
+import type { ChatGPTAPIOptions, ChatMessage, SendMessageOptions } from 'chatgpt'
 import { ChatGPTAPI } from 'chatgpt'
+import Keyv from 'keyv'
+import QuickLRU from 'quick-lru'
 import { SocksProxyAgent } from 'socks-proxy-agent'
 import httpsProxyAgent from 'https-proxy-agent'
 import fetch from 'node-fetch'
@@ -36,18 +38,28 @@ let api3: ChatGPTAPI, api4: ChatGPTAPI
 (async () => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
-  api3 = new ChatGPTAPI({
+  const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
+  const messageStore = new Keyv({ store: new QuickLRU({ maxSize: 10000 }) })
+
+  const options: ChatGPTAPIOptions = {
     apiKey: process.env.OPENAI_API_KEY,
-    completionParams: { model: 'gpt-3.5-turbo-1106' },
     debug: !disableDebug,
+    messageStore,
+  }
+
+  if (isNotEmptyString(OPENAI_API_BASE_URL))
+    options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
+
+  api3 = new ChatGPTAPI({
+    ...options,
+    completionParams: { model: 'gpt-3.5-turbo-1106' },
     maxModelTokens: 8000,
     maxResponseTokens: 2000,
   })
 
   api4 = new ChatGPTAPI({
-    apiKey: process.env.OPENAI_API_KEY,
+    ...options,
     completionParams: { model: 'gpt-4-1106-preview' },
-    debug: !disableDebug,
     maxModelTokens: 16000,
     maxResponseTokens: 4000,
   })
