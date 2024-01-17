@@ -29,7 +29,7 @@ export default {
     })
     window.addEventListener('mousemove', this.updatePointerObject)
     window.addEventListener('touchstart', this.iniPointerObject)
-    window.addEventListener('touchmove', this.updatePointerObject, { passive: false })
+    window.addEventListener('touchmove', this.updatePointerObject)
     window.addEventListener('touchend', this.deiniPointerObject)
 
     // Event trigger
@@ -194,7 +194,6 @@ export default {
       else {
         eventX = event.targetTouches[0].clientX
         eventY = event.targetTouches[0].clientY
-        event.preventDefault()
       }
       if (this.pointerObject.x !== -1000) {
         this.pointerObject.vx = eventX - this.pointerObject.x
