@@ -50,4 +50,3 @@ jobs:
             pnpm install && pnpm build
             echo "Start remote service..."
             /home/${{ secrets.REMOTE_USER }}/startService.sh $SERVICE &
-            exit
