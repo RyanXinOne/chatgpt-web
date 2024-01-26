@@ -49,4 +49,4 @@ jobs:
             cd /home/${{ secrets.REMOTE_USER }}/chatgpt-web/service/
             pnpm install && pnpm build
             echo "Start remote service..."
-            /home/${{ secrets.REMOTE_USER }}/startService.sh $SERVICE &
+            /home/${{ secrets.REMOTE_USER }}/startService.sh $SERVICE
