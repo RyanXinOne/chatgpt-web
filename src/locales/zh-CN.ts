@@ -28,7 +28,7 @@ export default {
     unauthorizedTips: '未经授权，请先进行验证。',
     enable: '启用',
     disable: '禁用',
-    gpt4Enabled: '已为当前会话临时启用GPT-4，模型很贵，悠着点用T_T',
+    gpt4Enabled: '已为当前会话临时启用GPT-4。',
     stopResponding: '停止响应',
   },
   chat: {

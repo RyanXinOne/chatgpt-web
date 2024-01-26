@@ -53,14 +53,14 @@ let api3: ChatGPTAPI, api4: ChatGPTAPI
   api3 = new ChatGPTAPI({
     ...options,
     completionParams: { model: 'gpt-3.5-turbo-1106' },
-    maxModelTokens: 8000,
-    maxResponseTokens: 2000,
+    maxModelTokens: 16000,
+    maxResponseTokens: 4000,
   })
 
   api4 = new ChatGPTAPI({
     ...options,
-    completionParams: { model: 'gpt-4-1106-preview' },
-    maxModelTokens: 16000,
+    completionParams: { model: 'gpt-4-0125-preview' },
+    maxModelTokens: 64000,
     maxResponseTokens: 4000,
   })
 
