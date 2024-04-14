@@ -64,7 +64,7 @@ let api3: ChatGPTAPI, api4: ChatGPTAPI
 
   api4 = new ChatGPTAPI({
     ...options,
-    completionParams: { model: 'gpt-4-0125-preview' },
+    completionParams: { model: 'gpt-4-turbo-2024-04-09' },
     maxModelTokens: 32000,
     maxResponseTokens: 4000,
   })
