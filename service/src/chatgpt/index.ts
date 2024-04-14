@@ -47,8 +47,13 @@ let api3: ChatGPTAPI, api4: ChatGPTAPI
     messageStore,
   }
 
-  if (isNotEmptyString(OPENAI_API_BASE_URL))
-    options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
+  if (isNotEmptyString(OPENAI_API_BASE_URL)) {
+    // if find /v1 in OPENAI_API_BASE_URL then use it
+    if (OPENAI_API_BASE_URL.includes('/v1'))
+      options.apiBaseUrl = `${OPENAI_API_BASE_URL}`
+    else
+      options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
+  }
 
   api3 = new ChatGPTAPI({
     ...options,
