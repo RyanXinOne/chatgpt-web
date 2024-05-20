@@ -10,7 +10,7 @@ export interface SettingsState {
 
 export function defaultSetting(): SettingsState {
   return {
-    systemMessage: 'You are ChatGPT, a large language model trained by OpenAI. Follow the user\'s instructions carefully. Respond using markdown. Use dollar signs for rendering math.',
+    systemMessage: 'You are ChatGPT, a large language model trained by OpenAI. Follow the user\'s instructions carefully. Respond using markdown. For math, do not use \\( \\) and \\[ \\] when rendering TeX formula, instead always wrap expressions with dollar signs $ or $$.',
     temperature: 0.8,
     top_p: 1,
   }
